@@ -1,0 +1,9 @@
+version: "3.9"
+services:
+  udp2-living-risk-engine:
+    build:
+      context: ..
+      dockerfile: deployment/Dockerfile
+    ports:
+      - "8080:8080"
+
