@@ -2,6 +2,26 @@
 
 This project includes AI-oriented orchestration and assurance patterns that support risk decisions without losing accountability.
 
+## Assurance flow diagram
+
+```mermaid
+sequenceDiagram
+    participant S as Signal / Telemetry
+    participant O as LivingRiskOrchestrator
+    participant T as Digital Twin State
+    participant G as Guardian / Parametric Logic
+    participant A as AI Assurance Logger
+
+    S->>O: ingest signal (trace_id)
+    O->>T: update twin state
+    T-->>O: risk_score, severity_score
+    O->>G: evaluate thresholds
+    G-->>O: guardian_action / parametric_result
+    O->>A: log decision (prompt_hash, model_version)
+    A-->>O: assurance_id
+    O-->>S: structured, auditable response
+```
+
 ## AI system goals
 
 The system aims to:

@@ -2,6 +2,23 @@
 
 This guide covers deploying the UDP 2.0 Living Risk Engine to Azure using the included deployment script.
 
+## Azure deployment flow
+
+```mermaid
+flowchart LR
+    classDef infra fill:#1971C2,color:#fff,stroke:#1864AB,stroke-width:1px;
+    classDef build fill:#7048E8,color:#fff,stroke:#5F3DC4,stroke-width:1px;
+    classDef deploy fill:#12B886,color:#fff,stroke:#087F5B,stroke-width:1px;
+    classDef live fill:#F59F00,color:#fff,stroke:#E67700,stroke-width:1px;
+
+    A([az group create]):::infra --> B[az acr create]:::infra
+    B --> C[[Build Docker image]]:::build
+    C --> D[Push to ACR]:::build
+    D --> E{{Create Container\nApps environment}}:::deploy
+    E --> F[Deploy Container App\n--target-port 8080]:::deploy
+    F --> G(((Public HTTPS endpoint))):::live
+```
+
 ## Prerequisites
 
 - Azure CLI installed and authenticated

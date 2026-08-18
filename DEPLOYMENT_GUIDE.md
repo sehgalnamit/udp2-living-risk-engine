@@ -84,26 +84,38 @@ This system implements 3 foundational enterprise AI principles:
 
 The system uses the **Hierarchical Supervisor Network** topology — a central Supervisor orchestrates all 4 specialized workers:
 
-```
-[User Input / External Trigger]
-        ↓
-[Supervisor Agent] ← LangGraph StateGraph entry point
-    ├──→ [Twin Risk Worker]       ← Continuous asset monitoring
-    ├──→ [Guardian Action Worker] ← Loss prevention actions
-    ├──→ [Parametric Trigger Worker] ← Instant claims automation
-    └──→ [AI Assurance Worker]    ← Compliance & audit logging
-        ↓
-[Output / Parametric Payout / Guardian Alert / Compliance Record]
+```mermaid
+flowchart TD
+    classDef input fill:#1971C2,color:#fff,stroke:#1864AB,stroke-width:1px;
+    classDef supervisor fill:#7048E8,color:#fff,stroke:#5F3DC4,stroke-width:1px;
+    classDef worker fill:#12B886,color:#fff,stroke:#087F5B,stroke-width:1px;
+    classDef output fill:#F59F00,color:#fff,stroke:#E67700,stroke-width:1px;
+
+    In[[User Input /\nExternal Trigger]]:::input --> Sup{{Supervisor Agent\nLangGraph StateGraph}}:::supervisor
+
+    Sup --> W1[Twin Risk Worker\nAsset monitoring]:::worker
+    Sup --> W2[Guardian Action Worker\nLoss prevention]:::worker
+    Sup --> W3[Parametric Trigger Worker\nClaims automation]:::worker
+    Sup --> W4[AI Assurance Worker\nCompliance logging]:::worker
+
+    W1 --> Out([Output: Parametric Payout /\nGuardian Alert / Compliance Record]):::output
+    W2 --> Out
+    W3 --> Out
+    W4 --> Out
 ```
 
 ### Deterministic State Machine (LangGraph)
 
 Every agent follows a deterministic execution path with **checkpoint + HITL** (Human-in-the-Loop) support:
 
-```
-[User Input] ──→ [Checkpoint] ──→ [Supervisor]
-                     ↑                  ↓
-               (Pause/HITL) ←── [Worker Execution]
+```mermaid
+flowchart LR
+    classDef state fill:#4C6EF5,color:#fff,stroke:#364FC7,stroke-width:1px;
+    classDef pause fill:#F59F00,color:#fff,stroke:#E67700,stroke-width:1px;
+
+    A([User Input]):::state --> B[[Checkpoint]]:::state --> C{{Supervisor}}:::state
+    C --> D[Worker Execution]:::state
+    D -.Pause / HITL.-> B
 ```
 
 **Implementation** (Production-grade):
@@ -386,29 +398,82 @@ class AIAssuranceLogger:
 
 ### High-Level System Flow
 
-```
-UI / FastMCP API → Multi-Agent Engine → Data Fabric Access → UDP 2.0 Lakehouse
-     ↓
-  Real-Time Execution Engine
-  - Parametric Triggers
-  - Risk Scoring
-  - Guardian Actions
-  - Compliance Audit
+```mermaid
+flowchart LR
+    classDef ui fill:#4C6EF5,color:#fff,stroke:#364FC7,stroke-width:1px;
+    classDef engine fill:#12B886,color:#fff,stroke:#087F5B,stroke-width:1px;
+    classDef data fill:#F59F00,color:#fff,stroke:#E67700,stroke-width:1px;
+
+    UI[[UI / FastMCP API]]:::ui --> ME{{Multi-Agent Engine}}:::engine
+    ME --> DF[/Data Fabric Access/]:::data
+    DF --> LH[(UDP 2.0 Lakehouse)]:::data
+
+    subgraph RTE["Real-Time Execution Engine"]
+        direction TB
+        PT[Parametric Triggers]:::engine
+        RS[Risk Scoring]:::engine
+        GA[Guardian Actions]:::engine
+        CA[Compliance Audit]:::engine
+    end
+
+    ME --> RTE
 ```
 
 ### UDP 2.0 Architecture - Layered Data Platform
 
+```mermaid
+flowchart TD
+    classDef source fill:#1971C2,color:#fff,stroke:#1864AB,stroke-width:1px;
+    classDef ingest fill:#4C6EF5,color:#fff,stroke:#364FC7,stroke-width:1px;
+    classDef raw fill:#868E96,color:#fff,stroke:#495057,stroke-width:1px;
+    classDef engine fill:#12B886,color:#fff,stroke:#087F5B,stroke-width:1px;
+    classDef curated fill:#0CA678,color:#fff,stroke:#087F5B,stroke-width:1px;
+    classDef consume fill:#7048E8,color:#fff,stroke:#5F3DC4,stroke-width:1px;
+
+    subgraph L1["1. Source Layer"]
+        direction LR
+        S1[Policy / Claims DBs\nCustomer CRM\nUnderwriting DB]:::source
+        S2[Weather APIs\nSatellite Imagery\nHazard Feeds]:::source
+    end
+
+    subgraph L2["2. Ingestion Layer"]
+        direction LR
+        I1[Azure Data Factory + CDC\n/ Cloud Dataflow]:::ingest
+        I2[Azure Event Hubs\n/ Google Pub-Sub]:::ingest
+    end
+
+    subgraph L3["3. Landing Layer (Raw Zone)"]
+        direction LR
+        R1[ADLS Gen2 Raw Zone]:::raw
+        R2[GCS Raw Bucket]:::raw
+    end
+
+    subgraph L4["4. Processing & Engine Layer"]
+        E1[Digital Twin State Engine\nDataflow / Databricks\nState Synthesis & Curation]:::engine
+    end
+
+    subgraph L5["5. Curated Layer (Data Products)"]
+        direction LR
+        C1[Customer / Policy / Risk\nData Products]:::curated
+        C2[Guardian Actions /\nAI Assurance Data Products]:::curated
+    end
+
+    subgraph L6["6. Consumption Layer"]
+        direction LR
+        Q1[Power BI / Azure OpenAI\nBigQuery / Vertex AI]:::consume
+        Q2[FastAPI\nParametric Triggers & Actions]:::consume
+    end
+
+    L1 --> L2 --> L3 --> L4 --> L5 --> L6
+```
+
 #### 1. SOURCE LAYER
-```
-┌─────────────────────────────────────────────┐
-│         1. SOURCE LAYER                      │
-├──────────────────────┬──────────────────────┤
-│  Core Systems        │  External Feeds & IoT│
-│  - Policy/Claims DBs │  - Weather APIs      │
-│  - Customer CRM      │  - Satellite Imagery │
-│  - Underwriting DB   │  - Hazard Feeds      │
-└──────────────────────┴──────────────────────┘
-```
+
+| Core Systems | External Feeds & IoT |
+|---|---|
+| Policy/Claims DBs | Weather APIs |
+| Customer CRM | Satellite Imagery |
+| Underwriting DB | Hazard Feeds |
 
 #### 2. INGESTION LAYER
 **Azure Path:**

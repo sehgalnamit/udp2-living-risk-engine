@@ -6,6 +6,40 @@ This document describes the architecture model used by the UDP 2.0 Living Risk E
 
 The project is intended to represent an insurance digital twin that continuously assesses exposure, monitors risk, and can generate preventive actions before a loss event escalates.
 
+## System diagram
+
+```mermaid
+flowchart LR
+    classDef input fill:#1971C2,color:#fff,stroke:#1864AB,stroke-width:1px;
+    classDef api fill:#7048E8,color:#fff,stroke:#5F3DC4,stroke-width:1px;
+    classDef core fill:#12B886,color:#fff,stroke:#087F5B,stroke-width:1px;
+    classDef logic fill:#0CA678,color:#fff,stroke:#087F5B,stroke-width:1px;
+    classDef data fill:#F59F00,color:#fff,stroke:#E67700,stroke-width:1px;
+    classDef audit fill:#E64980,color:#fff,stroke:#C2255C,stroke-width:1px;
+
+    A[Policy + Customer\nContext]:::input --> B[[FastAPI API]]:::api
+    C[Telemetry / Weather /\nHazard Signals]:::input --> B
+    B --> D{{LivingRiskOrchestrator}}:::core
+
+    subgraph Engine["Orchestrated Logic"]
+        direction TB
+        E[Digital Twin\nState Engine]:::logic
+        F[Guardian Action\nLogic]:::logic
+        G[Parametric Trigger\nLogic]:::logic
+        H[AI Assurance\nLogging]:::logic
+    end
+
+    D --> E
+    D --> F
+    D --> G
+    D --> H
+
+    E --> I[(DuckDB\nRuntime State)]:::data
+    F --> J([Action / Recommendation\nOutput]):::core
+    G --> J
+    H --> K[/Audit Trail &\nTraceability/]:::audit
+```
+
 ## Core architecture layers
 
 ### 1. API layer

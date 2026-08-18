@@ -1,45 +1,73 @@
 # UDP 2.0 Living Risk Engine
 
-The UDP 2.0 Living Risk Engine is an insurance digital twin reference application designed for proactive, telemetry-driven risk prevention. It combines an API-first backend, orchestration logic, AI-assisted risk evaluation, and cloud deployment assets for local, Azure, and GCP environments.
+The UDP 2.0 Living Risk Engine is an insurance digital-twin reference application for telemetry-driven risk prevention. It combines a FastAPI service, orchestration logic, AI-assisted decisioning, and deployment assets for local, Azure, and GCP execution.
 
 ## Overview
 
-This repository models a modern insurance workflow in which telemetry, underwriting context, risk scoring, and policy recommendations are assembled into a single operational loop. The system supports:
+This repository models a modern insurance workflow where telemetry, underwriting context, risk scoring, and preventive action are combined into a single operational loop. The system supports:
 
-- Telemetry ingestion and location-based risk assessment
-- Policy onboarding and prefill workflows
-- Context-aware coverage recommendations
-- Risk-state tracking for a digital twin
-- Active loss-prevention actions
-- Traceable AI assurance and audit logging
+- telemetry ingestion and location-based risk assessment
+- policy onboarding and prefill flows
+- contextual coverage recommendations
+- digital-twin risk state tracking
+- active loss-prevention actions
+- traceable AI assurance and audit logging
 
 ## Core capabilities
 
-- Real-time twin state management for insured properties or infrastructure
-- Event-driven signal processing for weather, IoT, or exposure changes
-- Policy-aware coverage recommendations
-- Active action detection and preventive recommendations
+- real-time twin state management for insured locations or assets
+- event-driven signal processing for weather, IoT, or exposure changes
+- policy-aware coverage recommendations
+- active action detection and preventive guidance
 - X-Trace-ID propagation for observability and auditability
-- Local-first development with portable deployment scripts for Azure and GCP
+- local-first execution with Azure and GCP deployment scripts
+
+## Architecture at a glance
+
+```mermaid
+flowchart LR
+    classDef client fill:#4C6EF5,color:#fff,stroke:#364FC7,stroke-width:1px;
+    classDef api fill:#7048E8,color:#fff,stroke:#5F3DC4,stroke-width:1px;
+    classDef core fill:#12B886,color:#fff,stroke:#087F5B,stroke-width:1px;
+    classDef logic fill:#0CA678,color:#fff,stroke:#087F5B,stroke-width:1px;
+    classDef data fill:#F59F00,color:#fff,stroke:#E67700,stroke-width:1px;
+    classDef ext fill:#868E96,color:#fff,stroke:#495057,stroke-width:1px;
+
+    User([Client / Operator]):::client --> API[[FastAPI Service\napp/main.py]]:::api
+    API --> Orchestrator{{LivingRiskOrchestrator\nagents/orchestrator.py}}:::core
+
+    subgraph Business["Business Logic — mcp_tools/"]
+        direction TB
+        Tooling[UDP2Tooling]:::logic --> Risk[Risk Scoring &\nCoverage Logic]:::logic
+        Tooling --> Guard[Guardian\nActions]:::logic
+        Tooling --> Parametric[Parametric\nTrigger Checks]:::logic
+        Tooling --> Assurance[AI Assurance\n& Audit Logging]:::logic
+    end
+
+    Orchestrator --> Tooling
+    Orchestrator --> Twin[(Digital Twin State\ndata_layer/)]:::data
+    Risk --> DB[(DuckDB\nIn-memory Store)]:::data
+    Tooling --> External[[Weather / Hazard /\nSatellite APIs]]:::ext
+```
 
 ## Repository map
 
 ```text
 udp2-living-risk-engine/
-├── app/                          # FastAPI app and HTTP endpoints
 ├── agents/                       # orchestration and risk-processing logic
-├── data_layer/                   # domain schemas and data models
+├── app/                          # FastAPI application and HTTP endpoints
+├── data_layer/                   # domain schemas, models, and simulation helpers
 ├── deployment/                   # Docker and cloud deployment assets
-├── mcp_tools/                    # tool gateway, trace helpers, and business logic
+├── docs/                         # deployment and architecture documentation
+├── infrastructure/               # Azure / GCP infra templates and references
+├── mcp_tools/                    # tool gateway, trace helpers, and policy logic
+├── src/                          # application package roots and runtime helpers
 ├── tests/                        # project tests
-├── README.md                     # project overview and navigation
+├── .gitignore
 ├── DEPLOYMENT_GUIDE.md           # broader deployment and architecture guide
+├── README.md                     # project overview and navigation
 ├── requirements.txt              # Python dependencies
-├── docker-compose.yml            # root Docker Compose file (legacy/local helper)
-├── deployment/Dockerfile         # container image definition
-├── deployment/deploy_azure.sh    # Azure deployment script
-├── deployment/deploy_gcp.sh      # GCP Cloud Run deployment script
-└── docs/                         # deep-dive documentation
+└── deployment/docker-compose.yml  # local containerized execution file
 ```
 
 ## Quick start
@@ -48,14 +76,15 @@ udp2-living-risk-engine/
 
 ```bash
 python -m venv .venv
-source .venv/bin/activate   # Windows: .venv\Scripts\activate
+# Windows: .venv\Scripts\activate
+# macOS/Linux: source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
 ### 2) Run locally
 
 ```bash
-uvicorn app.main:app --reload --port 8080
+python -m uvicorn app.main:app --reload --port 8080
 ```
 
 ### 3) Check health
@@ -92,7 +121,7 @@ See:
 
 ## Azure deployment
 
-The repo includes Azure deployment automation for Container Apps.
+The repo includes Azure deployment automation for Azure Container Apps.
 
 ```bash
 bash deployment/deploy_azure.sh
@@ -117,6 +146,26 @@ See:
 ## Architecture references
 
 The system is built around an insurance digital-twin architecture with policy-aware orchestration and AI-assisted risk decisions.
+
+```mermaid
+flowchart TD
+    classDef source fill:#1971C2,color:#fff,stroke:#1864AB,stroke-width:1px;
+    classDef engine fill:#12B886,color:#fff,stroke:#087F5B,stroke-width:1px;
+    classDef decision fill:#F59F00,color:#fff,stroke:#E67700,stroke-width:1px;
+    classDef output fill:#7048E8,color:#fff,stroke:#5F3DC4,stroke-width:1px;
+
+    A[[Source Data\nWeather + Property + Policy]]:::source --> B([Ingestion Layer]):::source
+    B --> C{{Digital Twin\nState Engine}}:::engine
+    C --> D[/Risk Scoring &\nEvent Logic/]:::engine
+
+    D --> E[Guardian\nActions]:::decision
+    D --> F[Parametric\nChecks]:::decision
+    D --> G[AI Assurance &\nAudit Trail]:::decision
+
+    E --> H([Operational Response]):::output
+    F --> H
+    G --> H
+```
 
 See:
 
@@ -146,4 +195,4 @@ The current suite validates the core application behaviors and API contract.
 
 ## Notes
 
-This repository is intended as a reference implementation and can be adapted for local experiments, cloud deployment testing, or enterprise prototype scenarios. The codebase is structured to keep the application simple and deployable while still reflecting realistic insurance and risk-monitoring workflows.
+This repository is intended as a reference implementation for local experiments, cloud deployment testing, and enterprise prototype scenarios. The codebase is structured to keep the application simple and deployable while still reflecting realistic insurance and risk-monitoring workflows.

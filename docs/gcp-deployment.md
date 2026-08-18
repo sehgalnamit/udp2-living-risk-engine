@@ -2,6 +2,21 @@
 
 This guide covers deploying the UDP 2.0 Living Risk Engine to Google Cloud Run.
 
+## GCP deployment flow
+
+```mermaid
+flowchart LR
+    classDef infra fill:#1971C2,color:#fff,stroke:#1864AB,stroke-width:1px;
+    classDef build fill:#7048E8,color:#fff,stroke:#5F3DC4,stroke-width:1px;
+    classDef deploy fill:#12B886,color:#fff,stroke:#087F5B,stroke-width:1px;
+    classDef live fill:#F59F00,color:#fff,stroke:#E67700,stroke-width:1px;
+
+    A([Set active\nGCP project]):::infra --> B[[Build container image]]:::build
+    B --> C[Push image to GCR]:::build
+    C --> D{{gcloud run deploy}}:::deploy
+    D --> E(((Public Cloud Run\nendpoint :8080))):::live
+```
+
 ## Prerequisites
 
 - Google Cloud SDK (`gcloud`) installed and authenticated
