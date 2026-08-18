@@ -14,7 +14,7 @@ flowchart LR
     Client --> Ingest[POST /api/v1/signal/ingest]:::endpoint
     Client --> Onboard[POST /api/v1/onboarding/prefill]:::endpoint
     Client --> Coverage[POST /api/v1/coverage/recommend]:::endpoint
-    Client --> TwinState[GET /api/v1/twin/state/{location_id}]:::endpoint
+    Client --> TwinState["GET /api/v1/twin/state/:location_id"]:::endpoint
     Client --> Actions[GET /api/v1/actions/active]:::endpoint
 
     Health --> Tooling{{UDP2Tooling}}:::core
