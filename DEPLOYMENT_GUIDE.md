@@ -85,11 +85,12 @@ This system implements 3 foundational enterprise AI principles:
 The system uses the **Hierarchical Supervisor Network** topology — a central Supervisor orchestrates all 4 specialized workers:
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'fontSize': '24px'}, 'flowchart': {'useMaxWidth': false, 'nodeSpacing': 70, 'rankSpacing': 90}}}%%
 flowchart TD
-    classDef input fill:#1971C2,color:#fff,stroke:#1864AB,stroke-width:1px;
-    classDef supervisor fill:#7048E8,color:#fff,stroke:#5F3DC4,stroke-width:1px;
-    classDef worker fill:#12B886,color:#fff,stroke:#087F5B,stroke-width:1px;
-    classDef output fill:#F59F00,color:#fff,stroke:#E67700,stroke-width:1px;
+    classDef input fill:#1971C2,color:#fff,stroke:#1864AB,stroke-width:2px;
+    classDef supervisor fill:#7048E8,color:#fff,stroke:#5F3DC4,stroke-width:2px;
+    classDef worker fill:#12B886,color:#fff,stroke:#087F5B,stroke-width:2px;
+    classDef output fill:#F59F00,color:#fff,stroke:#E67700,stroke-width:2px;
 
     In[[User Input /\nExternal Trigger]]:::input --> Sup{{Supervisor Agent\nLangGraph StateGraph}}:::supervisor
 
@@ -109,9 +110,10 @@ flowchart TD
 Every agent follows a deterministic execution path with **checkpoint + HITL** (Human-in-the-Loop) support:
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'fontSize': '24px'}, 'flowchart': {'useMaxWidth': false, 'nodeSpacing': 70, 'rankSpacing': 90}}}%%
 flowchart LR
-    classDef state fill:#4C6EF5,color:#fff,stroke:#364FC7,stroke-width:1px;
-    classDef pause fill:#F59F00,color:#fff,stroke:#E67700,stroke-width:1px;
+    classDef state fill:#4C6EF5,color:#fff,stroke:#364FC7,stroke-width:2px;
+    classDef pause fill:#F59F00,color:#fff,stroke:#E67700,stroke-width:2px;
 
     A([User Input]):::state --> B[[Checkpoint]]:::state --> C{{Supervisor}}:::state
     C --> D[Worker Execution]:::state
@@ -399,10 +401,11 @@ class AIAssuranceLogger:
 ### High-Level System Flow
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'fontSize': '24px'}, 'flowchart': {'useMaxWidth': false, 'nodeSpacing': 70, 'rankSpacing': 90}}}%%
 flowchart LR
-    classDef ui fill:#4C6EF5,color:#fff,stroke:#364FC7,stroke-width:1px;
-    classDef engine fill:#12B886,color:#fff,stroke:#087F5B,stroke-width:1px;
-    classDef data fill:#F59F00,color:#fff,stroke:#E67700,stroke-width:1px;
+    classDef ui fill:#4C6EF5,color:#fff,stroke:#364FC7,stroke-width:2px;
+    classDef engine fill:#12B886,color:#fff,stroke:#087F5B,stroke-width:2px;
+    classDef data fill:#F59F00,color:#fff,stroke:#E67700,stroke-width:2px;
 
     UI[[UI / FastMCP API]]:::ui --> ME{{Multi-Agent Engine}}:::engine
     ME --> DF[/Data Fabric Access/]:::data
@@ -422,13 +425,14 @@ flowchart LR
 ### UDP 2.0 Architecture - Layered Data Platform
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'fontSize': '24px'}, 'flowchart': {'useMaxWidth': false, 'nodeSpacing': 70, 'rankSpacing': 90}}}%%
 flowchart TD
-    classDef source fill:#1971C2,color:#fff,stroke:#1864AB,stroke-width:1px;
-    classDef ingest fill:#4C6EF5,color:#fff,stroke:#364FC7,stroke-width:1px;
-    classDef raw fill:#868E96,color:#fff,stroke:#495057,stroke-width:1px;
-    classDef engine fill:#12B886,color:#fff,stroke:#087F5B,stroke-width:1px;
-    classDef curated fill:#0CA678,color:#fff,stroke:#087F5B,stroke-width:1px;
-    classDef consume fill:#7048E8,color:#fff,stroke:#5F3DC4,stroke-width:1px;
+    classDef source fill:#1971C2,color:#fff,stroke:#1864AB,stroke-width:2px;
+    classDef ingest fill:#4C6EF5,color:#fff,stroke:#364FC7,stroke-width:2px;
+    classDef raw fill:#868E96,color:#fff,stroke:#495057,stroke-width:2px;
+    classDef engine fill:#12B886,color:#fff,stroke:#087F5B,stroke-width:2px;
+    classDef curated fill:#0CA678,color:#fff,stroke:#087F5B,stroke-width:2px;
+    classDef consume fill:#7048E8,color:#fff,stroke:#5F3DC4,stroke-width:2px;
 
     subgraph L1["1. Source Layer"]
         direction LR

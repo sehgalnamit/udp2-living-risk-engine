@@ -5,10 +5,11 @@ This document summarizes the main API endpoints exposed by the UDP 2.0 Living Ri
 ## Request flow diagram
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'fontSize': '24px'}, 'flowchart': {'useMaxWidth': false, 'nodeSpacing': 70, 'rankSpacing': 90}}}%%
 flowchart LR
-    classDef client fill:#4C6EF5,color:#fff,stroke:#364FC7,stroke-width:1px;
-    classDef endpoint fill:#7048E8,color:#fff,stroke:#5F3DC4,stroke-width:1px;
-    classDef core fill:#12B886,color:#fff,stroke:#087F5B,stroke-width:1px;
+    classDef client fill:#4C6EF5,color:#fff,stroke:#364FC7,stroke-width:2px;
+    classDef endpoint fill:#7048E8,color:#fff,stroke:#5F3DC4,stroke-width:2px;
+    classDef core fill:#12B886,color:#fff,stroke:#087F5B,stroke-width:2px;
 
     Client([Client / X-Trace-ID]):::client --> Health[GET /health]:::endpoint
     Client --> Ingest[POST /api/v1/signal/ingest]:::endpoint

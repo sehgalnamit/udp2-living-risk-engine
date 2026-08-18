@@ -5,10 +5,11 @@ This document describes how to run the UDP 2.0 Living Risk Engine locally in a d
 ## Deployment flow
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'fontSize': '24px'}, 'flowchart': {'useMaxWidth': false, 'nodeSpacing': 70, 'rankSpacing': 90}}}%%
 flowchart LR
-    classDef setup fill:#1971C2,color:#fff,stroke:#1864AB,stroke-width:1px;
-    classDef run fill:#12B886,color:#fff,stroke:#087F5B,stroke-width:1px;
-    classDef verify fill:#F59F00,color:#fff,stroke:#E67700,stroke-width:1px;
+    classDef setup fill:#1971C2,color:#fff,stroke:#1864AB,stroke-width:2px;
+    classDef run fill:#12B886,color:#fff,stroke:#087F5B,stroke-width:2px;
+    classDef verify fill:#F59F00,color:#fff,stroke:#E67700,stroke-width:2px;
 
     A([Create venv]):::setup --> B[Install\nrequirements]:::setup
     B --> C{{Start uvicorn\napp.main:app}}:::run

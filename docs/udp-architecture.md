@@ -9,13 +9,14 @@ The project is intended to represent an insurance digital twin that continuously
 ## System diagram
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'fontSize': '24px'}, 'flowchart': {'useMaxWidth': false, 'nodeSpacing': 70, 'rankSpacing': 90}}}%%
 flowchart LR
-    classDef input fill:#1971C2,color:#fff,stroke:#1864AB,stroke-width:1px;
-    classDef api fill:#7048E8,color:#fff,stroke:#5F3DC4,stroke-width:1px;
-    classDef core fill:#12B886,color:#fff,stroke:#087F5B,stroke-width:1px;
-    classDef logic fill:#0CA678,color:#fff,stroke:#087F5B,stroke-width:1px;
-    classDef data fill:#F59F00,color:#fff,stroke:#E67700,stroke-width:1px;
-    classDef audit fill:#E64980,color:#fff,stroke:#C2255C,stroke-width:1px;
+    classDef input fill:#1971C2,color:#fff,stroke:#1864AB,stroke-width:2px;
+    classDef api fill:#7048E8,color:#fff,stroke:#5F3DC4,stroke-width:2px;
+    classDef core fill:#12B886,color:#fff,stroke:#087F5B,stroke-width:2px;
+    classDef logic fill:#0CA678,color:#fff,stroke:#087F5B,stroke-width:2px;
+    classDef data fill:#F59F00,color:#fff,stroke:#E67700,stroke-width:2px;
+    classDef audit fill:#E64980,color:#fff,stroke:#C2255C,stroke-width:2px;
 
     A[Policy + Customer\nContext]:::input --> B[[FastAPI API]]:::api
     C[Telemetry / Weather /\nHazard Signals]:::input --> B

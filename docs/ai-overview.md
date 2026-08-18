@@ -5,6 +5,7 @@ This project includes AI-oriented orchestration and assurance patterns that supp
 ## Assurance flow diagram
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'fontSize': '24px'}, 'sequence': {'useMaxWidth': false, 'actorMargin': 90, 'messageMargin': 70, 'boxMargin': 20}}}%%
 sequenceDiagram
     participant S as Signal / Telemetry
     participant O as LivingRiskOrchestrator

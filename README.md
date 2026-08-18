@@ -25,10 +25,11 @@ This repository models a modern insurance workflow where telemetry, underwriting
 ## Architecture at a glance
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'fontSize': '24px'}, 'flowchart': {'useMaxWidth': false, 'nodeSpacing': 70, 'rankSpacing': 90}}}%%
 flowchart LR
-    classDef client fill:#4C6EF5,color:#fff,stroke:#364FC7,stroke-width:1px;
-    classDef api fill:#7048E8,color:#fff,stroke:#5F3DC4,stroke-width:1px;
-    classDef core fill:#12B886,color:#fff,stroke:#087F5B,stroke-width:1px;
+    classDef client fill:#4C6EF5,color:#fff,stroke:#364FC7,stroke-width:2px;
+    classDef api fill:#7048E8,color:#fff,stroke:#5F3DC4,stroke-width:2px;
+    classDef core fill:#12B886,color:#fff,stroke:#087F5B,stroke-width:2px;
     classDef logic fill:#0CA678,color:#fff,stroke:#087F5B,stroke-width:1px;
     classDef data fill:#F59F00,color:#fff,stroke:#E67700,stroke-width:1px;
     classDef ext fill:#868E96,color:#fff,stroke:#495057,stroke-width:1px;
@@ -148,11 +149,12 @@ See:
 The system is built around an insurance digital-twin architecture with policy-aware orchestration and AI-assisted risk decisions.
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'fontSize': '24px'}, 'flowchart': {'useMaxWidth': false, 'nodeSpacing': 70, 'rankSpacing': 90}}}%%
 flowchart TD
-    classDef source fill:#1971C2,color:#fff,stroke:#1864AB,stroke-width:1px;
-    classDef engine fill:#12B886,color:#fff,stroke:#087F5B,stroke-width:1px;
-    classDef decision fill:#F59F00,color:#fff,stroke:#E67700,stroke-width:1px;
-    classDef output fill:#7048E8,color:#fff,stroke:#5F3DC4,stroke-width:1px;
+    classDef source fill:#1971C2,color:#fff,stroke:#1864AB,stroke-width:2px;
+    classDef engine fill:#12B886,color:#fff,stroke:#087F5B,stroke-width:2px;
+    classDef decision fill:#F59F00,color:#fff,stroke:#E67700,stroke-width:2px;
+    classDef output fill:#7048E8,color:#fff,stroke:#5F3DC4,stroke-width:2px;
 
     A[[Source Data\nWeather + Property + Policy]]:::source --> B([Ingestion Layer]):::source
     B --> C{{Digital Twin\nState Engine}}:::engine
